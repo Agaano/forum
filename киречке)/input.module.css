@@ -1,0 +1,144 @@
+.input_box {
+    margin: 0 auto;
+    position: relative;
+    width: 500px;
+}
+
+.input_box input ~ label {
+    position: absolute;
+    left: 50%;
+    bottom: 0;
+    transform: translateX(-50%);
+    transition-duration:0.2s;
+}
+
+.input_box input:valid ~ label,
+.input_box input:focus ~ label {
+    transition-duration: 0.2s;
+    left: 0%;
+    transform: translateX(0%);
+    color: #0082ff;
+}
+
+.input_box textarea ~ label {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    transition-duration: 0.2s;
+}
+
+.input_box textarea:focus,
+.input_box textarea:valid {
+    border: 1px solid #0082ff;  
+}
+
+.input_box textarea:focus ~ label,
+.input_box textarea:valid ~ label {
+    color: #0082ff;
+    top: -25%;
+    left: 0%;
+    transform: translateX(0%);
+    transition: .2s;
+}
+
+.input_box input, .input_box textarea {
+    display: block;
+    text-align: center;
+    width: 100%;
+    height: 30px;
+    background-color: transparent;
+    color: white;
+    border: none;
+    border-bottom: 1px solid white;
+    font-size: 25px;
+    transition: 0.2s;
+    margin-top: 50px;
+}
+
+.input_box input:focus, .input_box textarea:focus {
+    outline: none;
+    border-bottom: 1px solid #0082ff;
+    transition: 0.2s;
+}
+  
+.input_box input:valid {
+    border-bottom: 1px solid #0082ff;
+}
+  
+.input_box label {
+    font-size: 25px;
+    color: white;
+    user-select: none;
+    z-index: -1;
+}
+
+.input_box input:valid {
+    border-bottom: 1px solid #0082ff;
+}
+  
+.input_box label {
+    user-select: none;
+    z-index: -1;
+}
+
+.input_box textarea {
+    padding-top: 5px;
+    overflow-y: hidden;
+    resize: none;
+    border: 1px solid white;
+    height: 150px;
+} 
+
+.button_box button {
+    margin-top: 50px;
+    font-size: 25px;
+    color: #444;
+    width: 100%;
+    height: 50px;
+    background-color: transparent;
+    border: 1px solid white;
+    outline: none;
+    transition: .2s;
+}
+
+.button_box {
+    margin-top: 500px;
+    width: 500px;
+    margin: 0 auto;
+}
+
+.form:valid button {
+    transition: .2s;
+    color: #0082ff;
+    border: 1px solid #0082ff;
+}
+
+.form:valid button:hover {
+    transition: .4s;
+    background-color: #0082ff;
+    color: #fff;
+}
+
+.password input {
+    -webkit-text-security: disc;
+}
+
+.form__text {
+    width: 500px;
+    margin: 0 auto;
+    color: white;
+    font-size: 20px;
+    margin-top: 25px;
+    font-weight: 100;
+    text-align:left;
+    letter-spacing: 1px;
+}
+
+.form__text a {
+    text-decoration: underline;
+}
+
+.form__text a:hover {
+    text-decoration: none;
+}

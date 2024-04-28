@@ -1,0 +1,160 @@
+import Sidebar from '@/components/sidebar'
+import { useState, useEffect } from 'react'
+import style from '@/styles/index.module.css'
+
+const NewsCard = ({ title, author, description, theme, date }) => {
+  const [expanded, setExpanded] = useState(false);
+
+  const toggleExpanded = () => {
+    setExpanded(!expanded);
+  };
+
+  return (
+    <div
+      className={`${style.content_block} ${expanded ? style.expanded : ''}`}
+      onClick={toggleExpanded}
+    >
+      <div className={style.image}></div>
+      <div className={style.content}>
+        <div className={style.authorDate}>
+          <h2>{author}</h2>
+          <h4>{date}</h4>
+        </div>
+        <h3>{theme}</h3>
+        <h1>{title}</h1>
+        {expanded && <p>{description}</p>}
+      </div>
+      <div className={style.expandButton}>
+        {expanded ? 'Скрыть' : 'Подробнее'}
+      </div>
+    </div>
+  );
+};
+
+export default function Home() {
+  const [theme, setTheme] = useState('all_themes');
+  const [content, setContent] = useState([]);
+
+  useEffect(() => {
+    const getData = async () => {  
+      const path = 'api/getPosts?theme=' + theme;
+      const response = await fetch(path);
+      const data = await response.json();
+      console.log(data.posts);
+      setContent(data.posts);
+    }
+    getData();
+  }, [theme]);
+
+  return (
+    <>
+      <Sidebar theme={theme} setTheme={setTheme} />
+      <div className={style.body__wrapper}>
+        {content.map(({ title, author, description, theme, date }) => (
+          <NewsCard
+            title={title}
+            author={author}
+            description={description}
+            theme={theme}
+            date={date}
+          />
+        ))}
+      </div>
+    </>
+  );
+};
+
+
+
+
+
+
+
+
+.body__wrapper {
+    width: 50vw;
+    margin: 30px auto;
+}
+.content_block {
+  background-color: #f5f5f5;
+  border-radius: 5px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.content_block:hover {
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.content_block .image {
+  height: 200px;
+  background-color: #ccc; 
+  background-size: cover;
+  background-position: center;
+}
+
+.content_block .content {
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.content_block .authorDate {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.content_block .authorDate h2 {
+  font-size: 18px;
+  margin-right: 10px;
+}
+
+.content_block .authorDate h4 {
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+.content_block h3 {
+  font-size: 16px;
+  margin-top: 10px;
+}
+
+.content_block h1 {
+  font-size: 24px;
+  margin-top: 10px;
+}
+
+.content_block p {
+  margin-top: 10px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.content_block.expanded p {
+  opacity: 1;
+}
+
+.expandButton {
+  background-color: #4e64ff;
+  color: #ffffff;
+  border: none;
+  border-radius: 5px;
+  padding: 10px 20px;
+  margin-top: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.expandButton:hover {
+  background-color: #3442c2;
+}
+
+.expandButton:active {
+  transform: scale(0.95);
+}
+
+

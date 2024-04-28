@@ -1,0 +1,18 @@
+.login__wrapper {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.form__wrapper {
+    padding: 25px 50px;
+    width: 700px;
+    background-color: var(--div-background-color);
+}
+
+.form__wrapper h1 {
+    font-size: 50px;
+    text-align: center;
+}
+

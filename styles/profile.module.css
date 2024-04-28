@@ -1,0 +1,32 @@
+.body__wrapper {
+    background-color:  #ccc;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-image: linear-gradient(to bottom, #f0f0f0 0%, #e0e0e0 50%, #f0f0f0 100%);
+}
+
+.body__wrapper h1 {
+    font-size: 24px;
+    margin-bottom: 10px;
+}
+  
+.body__wrapper h2 {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+  
+.logout_button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ff0000;
+    color: #fff;
+    text-decoration: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+  
+.logout_button:hover {
+    background-color: #c40000;
+}
+

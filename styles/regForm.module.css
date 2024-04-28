@@ -1,0 +1,93 @@
+.registrationForm {
+    width: 400px;
+    margin: 30px auto;
+    padding: 40px;
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    animation: fadeIn 0.5s ease;
+    transform: scale(1);
+    transition: transform 0.3s ease;
+  }
+  
+  @keyframes fadeIn {
+    0% {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .registrationForm:hover {
+    transform: scale(1.02);
+  }
+  
+  .registrationForm h3 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #333;
+    font-size: 2.2rem;
+    animation: fadeIn 0.5s ease;
+  }
+  
+  .formGroup {
+    margin-bottom: 30px;
+  }
+  
+  .formGroup:last-of-type {
+    margin-bottom: 15px;
+  }
+  
+  .registrationForm label {
+    font-weight: bold;
+    color: #555;
+    transition: color 0.3s ease;
+    display: block;
+  }
+  
+  .registrationForm input {
+    width: 100%;
+    padding: 12px;
+    background-color: #ffffff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    transition: border-color 0.3s ease;
+  }
+  
+  .registrationForm input:focus {
+    outline: none;
+    border-color: #4e64ff;
+    box-shadow: 0 0 0 2px rgba(78, 100, 255, 0.2);
+  }
+  
+  .registrationForm button {
+    width: 100%;
+    padding: 14px 40px;
+    background-color: #4e64ff;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .registrationForm button:hover {
+    background-color: #3442c2;
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  .registrationForm button:active {
+    transform: scale(0.95);
+  }
+  
+  .registrationForm p {
+    margin-bottom: 15px;
+  }
+  .registrationForm p a {
+    font-weight: 600;
+    color: blue;
+  }
