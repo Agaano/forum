@@ -26,7 +26,6 @@ export default async function handler(req, res) {
 						author: fields.author,
 						description: fields.description,
 						theme: fields.categories,
-						text: 'asdfgqwe',
 						image: Buffer.from(arrayBuffer),
 					},
 				})
