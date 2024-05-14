@@ -27,6 +27,9 @@ export default async function handler(req, res) {
 						description: fields.description,
 						theme: fields.categories,
 						image: Buffer.from(arrayBuffer),
+						image1: fields.image1,
+						image2: fields.image2,
+						image3: fields.image3,
 					},
 				})
 				prisma
