@@ -4,6 +4,10 @@ import Head from 'next/head'
 import { useRouter } from 'next/router'
 import { useEffect, useState } from 'react'
 import { LineWave } from 'react-loader-spinner'
+import Slider from 'react-slick'
+import "slick-carousel/slick/slick.css";
+
+import "slick-carousel/slick/slick-theme.css";
 
 export default function NewsDetail({ data }) {
 	const router = useRouter()
@@ -48,7 +52,7 @@ export default function NewsDetail({ data }) {
 
 	const {
 		title,
-		author,
+		userId,
 		theme,
 		date,
 		image,
@@ -59,6 +63,11 @@ export default function NewsDetail({ data }) {
 		image3,
 	} = newsData
 	const img = 'data:image/png;base64, ' + Buffer.from(image).toString('base64')
+	const img1 = !!image1 ? 'data:image/png;base64, ' + Buffer.from(image1).toString('base64') : ""
+	const img2 = !!image2 ? 'data:image/png;base64, ' + Buffer.from(image2).toString('base64') : ""
+	const img3 = !!image3 ? 'data:image/png;base64, ' + Buffer.from(image3).toString('base64') : ""
+
+	const images = [img1, img2, img3];
 
 	async function handleSubmit(e) {
 		e.preventDefault()
@@ -95,6 +104,15 @@ export default function NewsDetail({ data }) {
 		setCommentsFlag(!commentsFlag)
 	}
 
+	const settings = {
+		adaptiveHeight: true,
+		dots: false,
+		infinite: false,
+		speed: 500,
+		slidesToShow: 1,
+		slidesToScroll: 1,
+		infinite: true,
+	}
 	return (
 		<>
 			<Head>
@@ -103,18 +121,35 @@ export default function NewsDetail({ data }) {
 
 			<div className={styles.newsDetail}>
 				<h1 className={styles.title}>{title}</h1>
-				<p className={styles.author}>{author}</p>
+				<p className={styles.author}>{userId}</p>
 				<p className={styles.theme}>{theme}</p>
 				<p className={styles.date}>{new Date(date).toLocaleDateString()}</p>
 				<div className={styles.imageContainer}>
 					<img className={styles.image} src={img} alt={title} />
 				</div>
 				<p className={styles.description}>{description}</p>
-				<div className={styles.imagesContainer}>
-					<img src={image1} />
-					<img src={image2} />
-					<img src={image3} />
-				</div>
+				<Slider {...settings}>
+					{images.map((image, index) => {
+					return (
+						<div
+							key={index}
+						>
+							<img
+								key={index}
+								style={{
+									width: '70%',
+									height: '70%',
+									objectFit: 'contain',
+									borderRadius: '8px',
+									marginInline: "auto",
+								}}
+								src={image}
+								alt={`Image ${index}`}
+							/>
+						</div>
+					);
+					})}
+				</Slider>
 				<div className={styles.comments_block}>
 					<h1>Комментарии:</h1>
 
@@ -143,12 +178,12 @@ export default function NewsDetail({ data }) {
 					<ul>
 						{[...comments]
 							.reverse()
-							.map(({ id, text, author, date }, index) => (
+							.map(({ id, text, userId, date }, index) => (
 								<li key={index} style={{ '--delay': index.toString() }}>
-									<h2>{author}</h2>
+									<h2>{userId}</h2>
 									<h3>{getCorrectDate(date)}</h3>
 									<span>{text}</span> <br />
-									{data.name === 'admin' || data.name === author ? (
+									{data.name === 'admin' || data.name === userId ? (
 										<button
 											onClick={e => {
 												handleDeleteComment(e, id)

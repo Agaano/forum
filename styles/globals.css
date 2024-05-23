@@ -22,3 +22,7 @@ header {
   width: 100vw;
   heighT: 65px;
 }
+
+.slick-next::before, .slick-prev::before {
+  color: black !important;
+}

@@ -7,7 +7,7 @@ export default async function handler(req, res) {
             data: {
                 postId: Number(postID),
                 text: text,
-                author: author,
+                userId: author,
             }
         })
         await prisma.$disconnect();

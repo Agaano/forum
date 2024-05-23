@@ -10,7 +10,7 @@ const LoginForm = () => {
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
   const router = useRouter();
-
+  const [message, setMessage] = useState();
   const handleSubmitLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
@@ -18,23 +18,22 @@ const LoginForm = () => {
       method: 'POST',
       headers: {'Content-Type': 'application/json',},
       body: JSON.stringify({ name, email, password }),
-  });
-    response.json().then((data) => {
-      console.log('response: ' + response.status);
-      console.log('message: ' + data.message);
-      console.log('Email:', email);
-      console.log('Password:', password);
-      console.log('===========================');
-      cookies.set('_is', data.message);
-      router.push('/');
-    })
+    });
+    const data = await response.json();
+    if (response.status >= 400) {
+      setMessage(data.message)
+      setLoading(false);
+      return;
+    }
+    cookies.set('_is', data.message);
+    router.push('/');
 
   };
 
   return (
     <div className={styles.authForm}>
       <h2>Авторизация</h2>
-      
+      {message}
       <form onSubmit={handleSubmitLogin}>
         <label htmlFor="email">Email:</label>
         <input

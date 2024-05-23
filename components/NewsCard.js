@@ -6,7 +6,7 @@ import Link from 'next/link';
 import getCorrectDate from '@/components/getCorrectDate';
 import Placeholder from './newsblockplaceholder';
 
-export default function NewsCard({ id, title, author, description, theme, date, image, likes, comments, views, data, setPostsReloadFlag, PostsReloadFlag }) {
+export default function NewsCard({ id, title, author, description, theme, date, image, likes, comments, views, data, setPostsReloadFlag, PostsReloadFlag, isAdmin }) {
   const [expanded, setExpanded] = useState(false);
   const [liked, setLiked] = useState(likes.some(({userId}) => {return userId === data.id}));
   const [loading, setLoading] = useState(true); 
@@ -115,7 +115,7 @@ export default function NewsCard({ id, title, author, description, theme, date, 
             <img src="eye.png" className={style.viewIcon} />
             <span>{views}</span>
           </div>
-          {data.isLogged && (data.name === author || data.name === 'admin') ?
+          {data.isLogged && (data.name === author || isAdmin) ?
            <div className={style.trashcan}>
             <a onClick = {handleDeletePostClick} href = '#?'>
             <img src="trashcan.svg" width = {25} height = {25} className={style.viewIcon} />

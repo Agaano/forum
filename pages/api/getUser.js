@@ -15,6 +15,7 @@ export default withIronSessionApiRoute(async (req,res) => {
                 id: userDb.id,
                 name: userDb.name,
                 email: userDb.email,
+                status: userDb.status
             })
         } else req.session.destroy();
     } else {

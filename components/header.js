@@ -82,7 +82,7 @@ export default function Header({ data }) {
                       <Link href={`/news/${result.ID}`} className={style.search_link}>
                         <div className={style.search_title}>{result.title}</div>
                         <div className={style.search_info}>
-                          <span className={style.search_author}>{result.author}</span>
+                          <span className={style.search_author}>{result.userId}</span>
                           <span className={style.search_separator}>•</span>
                           <span className={style.search_theme}>{result.theme}</span>
                           <span className={style.search_separator}>•</span>

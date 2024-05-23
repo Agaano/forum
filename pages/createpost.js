@@ -3,7 +3,7 @@ import { themes } from '@/components/themes'
 import styles from '@/styles/postForm.module.css'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { TailSpin } from 'react-loader-spinner'
 import Select from 'react-select'
 
@@ -13,38 +13,65 @@ const PostForm = ({ data }) => {
 	const [image, setImage] = useState(null)
 	const [title, setTitle] = useState('')
 	const [description, setDescription] = useState('')
-	const [categories, setCategories] = useState('')
+	const [category, setCategory] = useState('')
+	const [categories, setCategories] = useState([])
 	const [loading, setLoading] = useState(false)
-	const [image1, setImage1] = useState('')
-	const [image2, setImage2] = useState('')
-	const [image3, setImage3] = useState('')
+	const [image1, setImage1] = useState(null)
+	const [image2, setImage2] = useState(null)
+	const [image3, setImage3] = useState(null)
 
 	const handleSubmit = async e => {
 		e.preventDefault()
 		setLoading(true)
-		const blbo = new Blob([image], { type: 'application/octet-stream' })
+		const blobPrev = new Blob([image], { type: 'application/octet-stream' })
 		const formdata = new FormData()
 		formdata.append('author', data.name)
 		formdata.append('title', title)
-		formdata.append('image', blbo)
-		formdata.append('image1', image1)
-		formdata.append('image2', image2)
-		formdata.append('image3', image3)
+		formdata.append('image', blobPrev)
 		formdata.append('description', description)
-		formdata.append('categories', categories)
+		formdata.append('categories', category)
 
 		const response = await fetch('api/addPost', {
 			method: 'POST',
 			body: formdata,
 		})
+		console.log(response.status)
 		if (response.ok) {
 			setImage(null)
 			setTitle('')
 			setDescription('')
-			setCategories('')
-			router.push('/')
+			setCategory('')
+			const data = await response.json();
+			const formDataImg = new FormData();
+			const blobPrev1 = new Blob([image1], { type: 'application/octet-stream' })
+			const blobPrev2 = new Blob([image2], { type: 'application/octet-stream' })
+			const blobPrev3 = new Blob([image3], { type: 'application/octet-stream' })
+			formDataImg.append('id', data.id)
+			formDataImg.append('image1', blobPrev1)
+			formDataImg.append('image2', blobPrev2)
+			formDataImg.append('image3', blobPrev3)
+			const response1 = await fetch('api/addPostImages', {
+				method: 'POST',
+				body: formDataImg
+			})
+
+			if (response1.ok) {
+				router.push('/')
+			} else {
+				alert("Картинки не были загружены. Попробуйте снова")
+			}
+
 		}
 	}
+
+	useEffect(() => {
+		(async () => {
+			const response = await fetch("api/getCategories")
+			const data = await response.json();
+			if (response.status >= 400) return;
+			setCategories(data.categories)
+		})()
+	}, [])
 
 	const handleChangeImage = async e => {
 		if (e.target.files.length !== 0) {
@@ -52,6 +79,26 @@ const PostForm = ({ data }) => {
 			setImage(file)
 		}
 	}
+
+	const handleChangeImage1 = async e => {
+		if (e.target.files.length !== 0) {
+			const file = e.target.files[0]
+			setImage1(file)
+		}
+	}
+	const handleChangeImage2 = async e => {
+		if (e.target.files.length !== 0) {
+			const file = e.target.files[0]
+			setImage2(file)
+		}
+	}
+	const handleChangeImage3 = async e => {
+		if (e.target.files.length !== 0) {
+			const file = e.target.files[0]
+			setImage3(file)
+		}
+	}
+
 	if (data.isLogged)
 		return (
 			<form className={styles.postForm} onSubmit={handleSubmit}>
@@ -78,10 +125,10 @@ const PostForm = ({ data }) => {
 						<div className={styles.selectWrapper}>
 							<Select
 								id='categories'
-								onChange={selectedOption => setCategories(selectedOption.value)}
-								options={themes.map(({ text, pathname }) => ({
-									value: pathname,
-									label: text,
+								onChange={selectedOption => setCategory(selectedOption.value)}
+								options={categories.map(({ name }) => ({
+									value: name,
+									label: name,
 								}))}
 								styles={customSelectStyles}
 								placeholder='Выберите категорию'
@@ -112,33 +159,48 @@ const PostForm = ({ data }) => {
 					></textarea>
 				</div>
 				<div className={styles.formGroup}>
-					<label htmlFor='image1'>
-						Ссылка на изображение 1 (необязательно):
-					</label>
-					<input
-						type='text'
-						id='image1'
-						value={image1}
-						onChange={e => setImage1(e.target.value)}
-					></input>
-					<label htmlFor='image2'>
-						Ссылка на изображение 2 (необязательно):
-					</label>
-					<input
-						type='text'
-						id='image2'
-						value={image2}
-						onChange={e => setImage2(e.target.value)}
-					></input>
-					<label htmlFor='image3'>
-						Ссылка на изображение 3 (необязательно):
-					</label>
-					<input
-						type='text'
-						id='image3'
-						value={image3}
-						onChange={e => setImage3(e.target.value)}
-					></input>
+					<div className={styles.fileInput}>
+						<input
+							type='file'
+							id='image1'
+							onChange={handleChangeImage1}
+							placeholder='Загрузите картинку'
+							accept='image/*'
+							max={5242880}
+						/>
+						<label htmlFor='image1'>
+							<span>Выберите картинку</span>
+							{image1 && <span className={styles.fileName}>{image1.name}</span>}
+						</label>
+					</div>
+					<div className={styles.fileInput}>
+						<input
+							type='file'
+							id='image2'
+							onChange={handleChangeImage2}
+							placeholder='Загрузите картинку'
+							accept='image/*'
+							max={5242880}
+						/>
+						<label htmlFor='image2'>
+							<span>Выберите картинку</span>
+							{image2 && <span className={styles.fileName}>{image2.name}</span>}
+						</label>
+					</div>
+					<div className={styles.fileInput}>
+						<input
+							type='file'
+							id='image3'
+							onChange={handleChangeImage3}
+							placeholder='Загрузите картинку'
+							accept='image/*'
+							max={5242880}
+						/>
+						<label htmlFor='image3'>
+							<span>Выберите картинку</span>
+							{image3 && <span className={styles.fileName}>{image3.name}</span>}
+						</label>
+					</div>
 				</div>
 				{loading ? (
 					<div className={styles.submit_loader}>

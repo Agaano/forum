@@ -20,22 +20,20 @@ export default async function handler(req, res) {
 		streamToBlob(readStream, image.mimetype).then(blob => {
 			blob.arrayBuffer().then(async buffer => {
 				const arrayBuffer = new Uint8Array(buffer)
+				console.log("HAIAIIIAI")
 				const post = await prisma.posts.create({
 					data: {
 						title: fields.title,
-						author: fields.author,
+						userId: fields.author,
 						description: fields.description,
 						theme: fields.categories,
 						image: Buffer.from(arrayBuffer),
-						image1: fields.image1,
-						image2: fields.image2,
-						image3: fields.image3,
 					},
 				})
 				prisma
 					.$disconnect()
 					.then(() => {
-						res.status(200).send()
+						res.status(200).json({id: post.ID})
 					})
 					.catch(err => {
 						console.log(err)

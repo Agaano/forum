@@ -10,21 +10,22 @@ datasource db {
 model posts {
   ID          Int       @id @default(autoincrement())
   title       String    @db.VarChar(50)
-  author      String    @default("anon") @db.VarChar(25)
+  userId      String    @default("anon") @db.VarChar(25)
   description String    @db.Text
   theme       String    @db.VarChar(20)
   date        DateTime? @default(now()) @db.Timestamp(0)
   views       Int       @default(0)
-  image       Bytes?
-  image1      String?
-  image2      String?
-  image3      String?
+  image       Bytes? 
+  image1      Bytes?
+  image2      Bytes?
+  image3      Bytes?
 }
 
 model User {
-  id       Int    @id @default(autoincrement())
+  id       Int          @id @default(autoincrement())
   name     String
-  email    String @unique
+  status   String?      @default("user") @db.VarChar(5)
+  email    String       @unique
   password String
 }
 
@@ -40,9 +41,14 @@ model Likes {
 model Comment {
   id     Int      @id @default(autoincrement())
   text   String   @db.Text
-  author String
+  userId String
   date   DateTime @default(now()) @db.Timestamp(0)
   postId Int
 
   @@index([postId], map: "Comment_postId_fkey")
+}
+
+model Category {
+  id     Int      @id @default(autoincrement())
+  name   String   @db.VarChar(25)
 }

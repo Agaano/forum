@@ -120,7 +120,7 @@ export default function Home({ data }) {
       <Head>
         <title>SpeakUp - {theme}</title>
       </Head>
-      <Sidebar theme={theme} setTheme={setTheme} />
+      <Sidebar theme={theme} isAdmin = {data.status === "admin"} setTheme={setTheme} />
       <div className={style.body__wrapper}>
         <div className={style.sortWrapper}>
           <label htmlFor="sort">Сортировать по:</label>
@@ -144,7 +144,7 @@ export default function Home({ data }) {
         {(isLoading ? (
           <TailSpin color="#8080ff" wrapperClass={style.loader} />
         ) : content.length > 0 ? (
-          content.map(({ ID, title, author, theme, date, image, likes, comments, views }) => (
+          content.map(({ ID, title, userId, theme, date, image, likes, comments, views }) => (
             <NewsCard
               PostsReloadFlag={PostsReloadFlag}
               setPostsReloadFlag={setPostsReloadFlag}
@@ -152,13 +152,14 @@ export default function Home({ data }) {
               key={ID}
               id={ID}
               title={title}
-              author={author}
+              author={userId}
               theme={theme}
               date={date}
               image={image}
               likes={likes}
               comments={comments}
               views={views}
+              isAdmin={data.status === "admin"}
             />
           ))
         ): <div>В этой категории нет постов :(</div>)}
